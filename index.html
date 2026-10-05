@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#0A0F14" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="LimpiaFoto" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="robots" content="noindex,nofollow,noarchive" />
+  <meta name="referrer" content="no-referrer" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' blob: data:; style-src 'self'; script-src 'self'; connect-src 'self'; worker-src 'self' blob:; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'" />
+  <meta name="description" content="Analiza y elimina metadatos de imágenes localmente desde tu iPhone o navegador." />
+  <title>LimpiaFoto — privacidad para tus imágenes</title>
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="icon" type="image/svg+xml" href="./icon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png" />
+  <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="ambient ambientA" aria-hidden="true"></div>
+  <div class="ambient ambientB" aria-hidden="true"></div>
+
+  <main class="wrap">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="LimpiaFoto - inicio">
+        <img src="./logo.svg" alt="LimpiaFoto" />
+      </a>
+      <div class="localTag"><span></span> Procesamiento local</div>
+    </header>
+
+    <section class="hero">
+      <div class="heroCopy">
+        <div class="kicker">PRIVACIDAD · SIN SUBIDAS · SIN CUENTA</div>
+        <h1>Limpia tus fotos<br><span>antes de compartirlas.</span></h1>
+        <p>Revisa y elimina metadatos como ubicación GPS, EXIF, XMP, IPTC y bloques de procedencia compatibles. Todo ocurre en tu dispositivo.</p>
+        <div class="trustRow">
+          <div><strong>Local</strong><span>Las imágenes no se suben</span></div>
+          <div><strong>Privado</strong><span>Sin analítica ni rastreo</span></div>
+          <div><strong>PWA</strong><span>Instalable en iPhone</span></div>
+        </div>
+      </div>
+      <div class="heroMark" aria-hidden="true">
+        <img src="./icon.svg" alt="" />
+        <div class="orbit orbit1"></div><div class="orbit orbit2"></div>
+      </div>
+    </section>
+
+    <section class="card selectCard" aria-labelledby="selectTitle">
+      <div class="cardHead">
+        <div class="step">01</div>
+        <div><span class="eyebrow">SELECCIONA</span><h2 id="selectTitle">Tus imágenes</h2></div>
+      </div>
+
+      <label class="picker" id="dropZone" for="files">
+        <span class="pickerIcon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        </span>
+        <span class="pickerCopy"><strong>Elegir imágenes</strong><small>JPEG, PNG, WebP y HEIC/HEIF compatible con Safari · selección múltiple</small></span>
+        <span class="pickerArrow" aria-hidden="true">›</span>
+      </label>
+      <input id="files" type="file" accept="image/*,.heic,.heif" multiple />
+
+      <div id="selectionSummary" class="selectionSummary" hidden>
+        <div class="selectionMeta"><strong id="selectionCount">0 imágenes</strong><span id="selectionSize">0 MB</span></div>
+        <button id="clearSelection" class="ghostBtn" type="button">Quitar selección</button>
+      </div>
+
+      <div class="mainActions">
+        <button id="analyze" class="secondary wide" type="button" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m21 21-4.4-4.4M10.8 18a7.2 7.2 0 1 1 0-14.4 7.2 7.2 0 0 1 0 14.4Z"/></svg>
+          Analizar primero
+        </button>
+        <button id="clean" class="primary wide" type="button" disabled>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5.5 6v5.2c0 4.4 2.7 7.8 6.5 9.8 3.8-2 6.5-5.4 6.5-9.8V6L12 3Z"/><path d="m9.1 12 1.8 1.8 4.2-4.2"/></svg>
+          Limpiar imágenes
+        </button>
+      </div>
+      <div class="statusWrap"><span class="statusDot" aria-hidden="true"></span><p id="status" class="status" aria-live="polite">Selecciona una o varias fotos para comenzar.</p></div>
+    </section>
+
+    <section id="analysis" class="section" hidden>
+      <div class="sectionHead">
+        <div class="titleGroup"><div class="step">02</div><div><span class="eyebrow">REVISA</span><h2>Análisis de privacidad</h2></div></div>
+        <div id="riskBadge" class="riskBadge">Sin analizar</div>
+      </div>
+      <div id="analysisStats" class="stats"></div>
+      <div id="analysisList" class="analysisList"></div>
+    </section>
+
+    <section class="card optionsCard" aria-labelledby="settingsTitle">
+      <div class="cardHead">
+        <div class="step">03</div>
+        <div><span class="eyebrow">AJUSTES</span><h2 id="settingsTitle">Cómo limpiar</h2></div>
+      </div>
+
+      <div class="optionGrid">
+        <label class="field">
+          <span>Formato de salida</span>
+          <select id="format">
+            <option value="auto">Automático · conservar cuando sea posible</option>
+            <option value="image/jpeg">Convertir a JPEG</option>
+            <option value="image/png">Convertir a PNG</option>
+            <option value="image/webp">Convertir a WebP</option>
+          </select>
+        </label>
+
+        <label class="field">
+          <span>Calidad al recodificar</span>
+          <div class="rangeRow"><input id="quality" type="range" min="80" max="100" value="97" /><strong id="qualityValue">97%</strong></div>
+        </label>
+      </div>
+
+      <label class="switchRow">
+        <span><strong>Limpieza máxima</strong><small>Elimina también perfiles ICC. Úsala solo si quieres remover la mayor cantidad posible de información adicional.</small></span>
+        <input id="deepClean" type="checkbox" />
+        <i aria-hidden="true"></i>
+      </label>
+    </section>
+
+    <section id="results" class="section" hidden>
+      <div class="sectionHead">
+        <div class="titleGroup"><div class="step done">04</div><div><span class="eyebrow">LISTO</span><h2>Imágenes limpias</h2></div></div>
+        <button id="shareAll" class="secondary compactBtn" type="button" hidden>Compartir todas</button>
+      </div>
+      <div id="resultStats" class="stats"></div>
+      <div id="grid" class="grid"></div>
+    </section>
+
+    <section class="installCard" id="installHelp">
+      <div class="installIcon" aria-hidden="true"><img src="./icon.svg" alt="" /></div>
+      <div class="installCopy"><span class="eyebrow">IPHONE</span><h2>Úsala como una app</h2><p>En Safari toca <strong>Compartir</strong> → <strong>Añadir a pantalla de inicio</strong>. Después podrás abrir LimpiaFoto desde su propio icono.</p></div>
+      <div class="installSteps" aria-hidden="true"><span>Safari</span><b>→</b><span>Compartir</span><b>→</b><span>Pantalla de inicio</span></div>
+    </section>
+
+    <section class="privacyGrid">
+      <article><div class="miniIcon">⌁</div><strong>Sin servidor de imágenes</strong><p>El navegador procesa los archivos que seleccionas. La app no incluye un backend para recibirlos.</p></article>
+      <article><div class="miniIcon">◎</div><strong>Conserva calidad cuando puede</strong><p>JPEG, PNG y WebP se limpian sin recomprimir en modo automático, salvo casos donde sea necesario normalizar la orientación.</p></article>
+      <article><div class="miniIcon">✓</div><strong>Comparación inmediata</strong><p>Revisa el peso antes y después, y comparte el resultado con la hoja nativa de iOS.</p></article>
+    </section>
+
+    <section class="notice">
+      <div class="noticeIcon">i</div>
+      <div><strong>Importante</strong><p>La app elimina metadatos compatibles del archivo. No altera deliberadamente el contenido visual para intentar engañar sistemas de análisis, y ninguna limpieza garantiza cómo una plataforma clasificará una imagen.</p></div>
+    </section>
+
+    <footer>
+      <img src="./logo.svg" alt="LimpiaFoto" />
+      <p>Privacidad primero. Procesamiento local en tu navegador.</p>
+    </footer>
+  </main>
+
+  <template id="analysisTpl">
+    <article class="analysisCard">
+      <div class="thumbWrap"><img class="thumb" alt="Vista previa" /></div>
+      <div class="analysisBody">
+        <div class="analysisTop"><div class="name"></div><span class="fileType"></span></div>
+        <div class="dimensions"></div>
+        <div class="chips"></div>
+        <div class="analysisFoot"><span class="privacyState"></span><span class="fileSize"></span></div>
+      </div>
+    </article>
+  </template>
+
+  <template id="resultTpl">
+    <article class="resultCard">
+      <div class="compare">
+        <div class="comparePane"><span>Antes</span><img class="before" alt="Imagen original" /></div>
+        <div class="comparePane"><span>Después</span><img class="after" alt="Imagen limpia" /></div>
+      </div>
+      <div class="resultBody">
+        <div class="resultTop"><div class="name"></div><span class="cleanBadge">LIMPIA</span></div>
+        <div class="meta"></div>
+        <div class="removed"></div>
+        <div class="actions">
+          <button class="share secondary" type="button">Compartir</button>
+          <a class="download primary" download>Guardar</a>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <script src="./app.js"></script>
+</body>
+</html>

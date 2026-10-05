@@ -1,0 +1,24 @@
+LIMPIAFOTO — SUBIR A GITHUB PAGES
+==================================
+
+1) Crea un repositorio llamado, por ejemplo: limpiafoto
+2) Descomprime este ZIP en tu computador.
+3) En GitHub: Add file > Upload files.
+4) Arrastra TODOS los archivos descomprimidos.
+   IMPORTANTE: index.html debe quedar en la raíz del repositorio.
+5) Commit changes.
+6) Settings > Pages.
+7) Source: Deploy from a branch.
+8) Branch: main / (root) > Save.
+9) Abre la URL que entregue GitHub.
+10) En iPhone: Safari > Compartir > Añadir a pantalla de inicio.
+
+NO NECESITAS:
+- vercel.json
+- netlify.toml
+- npm
+- Node.js
+- servidor o base de datos
+
+DOMINIO PERSONALIZADO:
+Settings > Pages > Custom domain.

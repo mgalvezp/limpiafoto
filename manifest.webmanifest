@@ -1,0 +1,19 @@
+{
+  "id": "./",
+  "name": "LimpiaFoto — privacidad para tus imágenes",
+  "short_name": "LimpiaFoto",
+  "description": "Analiza y elimina metadatos de imágenes localmente en tu dispositivo.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#080B0F",
+  "theme_color": "#0A0F14",
+  "categories": ["utilities", "photo", "security"],
+  "icons": [
+    {"src":"./icon-192.png","sizes":"192x192","type":"image/png","purpose":"any"},
+    {"src":"./icon-512.png","sizes":"512x512","type":"image/png","purpose":"any"},
+    {"src":"./icon-512-maskable.png","sizes":"512x512","type":"image/png","purpose":"maskable"}
+  ]
+}
