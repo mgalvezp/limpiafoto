@@ -1,6 +1,6 @@
-# LimpiaFoto
+# LimpiaFoto by MGP Media
 
-PWA estática para analizar y eliminar metadatos de imágenes directamente en el navegador.
+PWA estática de MGP Media para analizar y eliminar metadatos de imágenes, además de normalizar texto, directamente en el navegador.
 
 ## Publicar gratis con GitHub Pages
 
@@ -46,3 +46,8 @@ Eliminar metadatos no garantiza cómo una plataforma externa clasificará una im
 ## Humanizador de texto
 
 La pestaña **Texto** funciona completamente en el navegador y no usa APIs externas. Puede normalizar Unicode oculto, espacios especiales, guiones, comillas, entidades HTML, espacios sobrantes y símbolos frecuentes. No realiza una reescritura semántica con IA ni garantiza resultados frente a detectores de IA.
+
+
+## Branding
+
+Esta edición incorpora la firma visual **LimpiaFoto by MGP Media** y utiliza el logo de MGP Media en cabecera y footer.

@@ -1,8 +1,9 @@
-const CACHE = 'limpiafoto-github-v4';
+const CACHE = 'limpiafoto-mgp-v5';
 const ASSETS = [
   './','./index.html','./styles.css','./app.js','./text-tools.js','./manifest.webmanifest',
   './logo.svg','./icon.svg','./favicon-32.png','./apple-touch-icon.png',
-  './icon-192.png','./icon-512.png','./icon-512-maskable.png'
+  './icon-192.png','./icon-512.png','./icon-512-maskable.png',
+  './mgp-media-lockup.png','./mgp-media-lockup-small.png'
 ];
 
 self.addEventListener('install', event => {
