@@ -12,8 +12,8 @@
   <meta name="robots" content="noindex,nofollow,noarchive" />
   <meta name="referrer" content="no-referrer" />
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' blob: data:; style-src 'self'; script-src 'self'; connect-src 'self'; worker-src 'self' blob:; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'" />
-  <meta name="description" content="Analiza y elimina metadatos de imágenes localmente desde tu iPhone o navegador." />
-  <title>LimpiaFoto — privacidad para tus imágenes</title>
+  <meta name="description" content="Herramientas locales para limpiar metadatos de imágenes y normalizar texto desde tu iPhone o navegador." />
+  <title>LimpiaFoto — herramientas locales de privacidad</title>
   <link rel="manifest" href="./manifest.webmanifest" />
   <link rel="icon" type="image/svg+xml" href="./icon.svg" />
   <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png" />
@@ -31,6 +31,19 @@
       </a>
       <div class="localTag"><span></span> Procesamiento local</div>
     </header>
+    <nav class="toolNav" aria-label="Herramientas">
+      <button class="toolTab active" type="button" data-tool="photo" aria-selected="true">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6.5h16v11H4z"/><path d="m7 14 3-3 2.3 2.3 1.8-1.8L18 15.5"/><circle cx="15.5" cy="9.5" r="1.2"/></svg>
+        Fotos
+      </button>
+      <button class="toolTab" type="button" data-tool="text" aria-selected="false">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 6h14M5 10h14M5 14h9M5 18h11"/></svg>
+        Texto
+        <span class="newPill">NUEVO</span>
+      </button>
+    </nav>
+
+    <div id="photoTool" class="toolPanel">
 
     <section class="hero">
       <div class="heroCopy">
@@ -147,6 +160,84 @@
       <div><strong>Importante</strong><p>La app elimina metadatos compatibles del archivo. No altera deliberadamente el contenido visual para intentar engañar sistemas de análisis, y ninguna limpieza garantiza cómo una plataforma clasificará una imagen.</p></div>
     </section>
 
+
+    </div>
+
+    <div id="textTool" class="toolPanel" hidden>
+      <section class="textHero">
+        <div class="kicker">TEXTO · LOCAL · SIN API</div>
+        <h1>Haz que tu texto se vea<br><span>más limpio y natural.</span></h1>
+        <p>Normaliza caracteres invisibles, comillas, guiones, espacios y entidades HTML sin enviar tu texto a ningún servidor.</p>
+        <div class="trustRow textTrust">
+          <div><strong>Local</strong><span>El texto no se sube</span></div>
+          <div><strong>Instantáneo</strong><span>Funciona en el navegador</span></div>
+          <div><strong>Control</strong><span>Tú eliges qué cambiar</span></div>
+        </div>
+      </section>
+
+      <section class="textWorkbench">
+        <article class="card textEditorCard">
+          <div class="cardHead textCardHead">
+            <div class="step">01</div>
+            <div><span class="eyebrow">ENTRADA</span><h2>Texto original</h2></div>
+            <div class="charCount" id="inputCount">0 caracteres</div>
+          </div>
+          <textarea id="humanInput" class="humanTextarea" placeholder="Pega aquí el texto que quieres limpiar…" spellcheck="true"></textarea>
+          <div class="textActions">
+            <button id="clearText" class="ghostBtn" type="button">Limpiar campo</button>
+            <button id="humanizeText" class="primary" type="button" disabled>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 5.5 6v5.2c0 4.4 2.7 7.8 6.5 9.8 3.8-2 6.5-5.4 6.5-9.8V6L12 3Z"/><path d="m9.1 12 1.8 1.8 4.2-4.2"/></svg>
+              Humanizar texto
+            </button>
+          </div>
+        </article>
+
+        <article class="card textEditorCard resultTextCard">
+          <div class="cardHead textCardHead">
+            <div class="step done">02</div>
+            <div><span class="eyebrow">RESULTADO</span><h2>Texto limpio</h2></div>
+            <div class="charCount" id="outputCount">0 caracteres</div>
+          </div>
+          <textarea id="humanOutput" class="humanTextarea" placeholder="Aquí aparecerá el resultado…" readonly></textarea>
+          <div class="textActions">
+            <span id="humanStatus" class="textResultStatus">Sin procesar</span>
+            <button id="copyHumanized" class="secondary" type="button" disabled>Copiar resultado</button>
+          </div>
+        </article>
+      </section>
+
+      <section class="card humanSettings" aria-labelledby="humanSettingsTitle">
+        <div class="cardHead">
+          <div class="step">03</div>
+          <div><span class="eyebrow">AJUSTES</span><h2 id="humanSettingsTitle">Qué quieres normalizar</h2></div>
+        </div>
+        <div class="humanOptions">
+          <label class="checkTile"><input id="optHidden" type="checkbox" checked><span class="checkMark">✓</span><span><strong>Unicode oculto</strong><small>Elimina caracteres invisibles, marcas direccionales y soft hyphens.</small></span></label>
+          <label class="checkTile"><input id="optSpaces" type="checkbox" checked><span class="checkMark">✓</span><span><strong>Espacios especiales</strong><small>Cambia espacios no separables y similares por espacios normales.</small></span></label>
+          <label class="checkTile"><input id="optDashes" type="checkbox" checked><span class="checkMark">✓</span><span><strong>Guiones tipográficos</strong><small>Convierte guiones largos y signos equivalentes a guiones comunes.</small></span></label>
+          <label class="checkTile"><input id="optQuotes" type="checkbox" checked><span class="checkMark">✓</span><span><strong>Comillas tipográficas</strong><small>Normaliza comillas curvas, angulares y apóstrofes especiales.</small></span></label>
+          <label class="checkTile"><input id="optWhitespace" type="checkbox" checked><span class="checkMark">✓</span><span><strong>Espaciado sobrante</strong><small>Quita espacios al final de líneas y exceso de espacios internos.</small></span></label>
+          <label class="checkTile"><input id="optEntities" type="checkbox" checked><span class="checkMark">✓</span><span><strong>Entidades HTML</strong><small>Convierte &amp;nbsp;, &amp;amp;, &amp;quot; y entidades numéricas a texto normal.</small></span></label>
+          <label class="checkTile"><input id="optSymbols" type="checkbox" checked><span class="checkMark">✓</span><span><strong>Símbolos frecuentes</strong><small>Convierte elipsis tipográfica y algunos signos de compatibilidad.</small></span></label>
+          <label class="checkTile"><input id="optParagraphs" type="checkbox"><span class="checkMark">✓</span><span><strong>Párrafos compactos</strong><small>Reduce tres o más saltos de línea seguidos a un máximo de dos.</small></span></label>
+        </div>
+      </section>
+
+      <section id="humanReport" class="section" hidden>
+        <div class="sectionHead">
+          <div class="titleGroup"><div class="step done">04</div><div><span class="eyebrow">CAMBIOS</span><h2>Resumen de limpieza</h2></div></div>
+          <div class="riskBadge clean" id="changeBadge">0 cambios</div>
+        </div>
+        <div id="humanStats" class="stats humanStats"></div>
+        <div id="changeList" class="changeList"></div>
+      </section>
+
+      <section class="notice textNotice">
+        <div class="noticeIcon">i</div>
+        <div><strong>Qué hace esta herramienta</strong><p>Normaliza caracteres y formato. No inventa contenido ni garantiza resultados frente a detectores de IA. Si quieres una reescritura editorial completa, eso requeriría un modelo de lenguaje y ya no sería un proceso totalmente local.</p></div>
+      </section>
+    </div>
+
     <footer>
       <img src="./logo.svg" alt="LimpiaFoto" />
       <p>Privacidad primero. Procesamiento local en tu navegador.</p>
@@ -184,5 +275,6 @@
   </template>
 
   <script src="./app.js"></script>
+  <script src="./text-tools.js"></script>
 </body>
 </html>

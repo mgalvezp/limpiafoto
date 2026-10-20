@@ -1,6 +1,6 @@
-const CACHE = 'limpiafoto-github-v3';
+const CACHE = 'limpiafoto-github-v4';
 const ASSETS = [
-  './','./index.html','./styles.css','./app.js','./manifest.webmanifest',
+  './','./index.html','./styles.css','./app.js','./text-tools.js','./manifest.webmanifest',
   './logo.svg','./icon.svg','./favicon-32.png','./apple-touch-icon.png',
   './icon-192.png','./icon-512.png','./icon-512-maskable.png'
 ];

@@ -41,3 +41,8 @@ LimpiaFoto no incluye analítica ni backend de imágenes. Los archivos seleccion
 ## Nota
 
 Eliminar metadatos no garantiza cómo una plataforma externa clasificará una imagen. Algunas plataformas usan señales adicionales o análisis del contenido visual.
+
+
+## Humanizador de texto
+
+La pestaña **Texto** funciona completamente en el navegador y no usa APIs externas. Puede normalizar Unicode oculto, espacios especiales, guiones, comillas, entidades HTML, espacios sobrantes y símbolos frecuentes. No realiza una reescritura semántica con IA ni garantiza resultados frente a detectores de IA.
